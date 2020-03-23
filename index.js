@@ -1,9 +1,13 @@
+const path = require('path');
 const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('koa2-cors');
+const staticFiles = require('koa-static')
 const multer = require('koa-multer');
 const app = new Koa();
 app.use(cors());
+app.use(staticFiles(path.resolve(__dirname, "./uploads")))
+
 const router = new Router();
 // 存文件
 const storage = multer.diskStorage({
@@ -21,9 +25,7 @@ const upload = multer({
 })
 // 接口
 router.post('/upload', upload.single('file'), async (ctx, next) => {
-    ctx.body = {
-        filename: ctx.req.file.filename//返回文件名
-    }
+    ctx.body = ctx.req.file.filename
 })
 app.use(router.routes(), router.allowedMethods())
 
