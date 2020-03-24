@@ -24,6 +24,9 @@ const upload = multer({
     storage: storage
 })
 // 接口
+router.get('/', async (ctx, next) => {
+    ctx.body = `<h1>啥也没有</h1>`
+  })
 router.post('/upload', upload.single('file'), async (ctx, next) => {
     ctx.body = ctx.req.file.filename
 })
